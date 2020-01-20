@@ -20,13 +20,20 @@ class bstNode
     Element<type> data;
     bstNode *leftChild;
     bstNode *rightChild;
+  public:
     void display(int i);
+    void display();
 };
 
 template <class type>
+void bstNode<type>::display()
+{
+  std::cout << "key: " << data.key << "\n";
+}
+template <class type>
 void bstNode<type>::display(int i)
 {
-  std::cout << "position: " << i << "key: " << data.key << "\n";
+  std::cout << "position:" << i << ", key: " << data.key << "\n";
   if(leftChild) leftChild->display(2*i);
   if(rightChild) rightChild->display(2*i + 1);
 }
@@ -40,7 +47,17 @@ class BST
       root = init;
     }
     Boolean insert(const Element<type> &node);
-
+    bstNode<type>* search(const Element<type> &node);
+    bstNode<type>* search(bstNode<type> *tree, const Element<type> &node);
+    bstNode<type>* iter_search(const Element<type> &node);
+    void display()
+    {
+      std::cout <<"\n";
+      if (root)
+        root->display(1);
+      else
+        std::cout << "this is an empty tree" << "\n";
+    }
   private:
     bstNode<type> *root;
 
@@ -69,4 +86,29 @@ Boolean BST<type>::insert(const Element<type> &node)
 
   return True;
 }
+template <class type>
+bstNode<type>* BST<type>::search(const Element<type> &node)
+{
+  return search(root, node);
+}
+
+template <class type>
+bstNode<type>* BST<type>::search(bstNode<type> *tree, const Element<type> &node)
+{
+  if (!tree) return 0;
+  if (node.key == tree->data.key) return tree;
+  else if (node.key < tree->data.key) return search(tree->leftChild, node);
+  else return search(tree->rightChild, node);
+
+}
+template <class type>
+bstNode<type>* BST<type>::iter_search(const Element<type> &node)
+{
+  if (!root) return 0;
+  for (bstNode<type> p = root; p;)
+  {
+    //if (node.data == )
+  }
+}
+
 #endif
